@@ -862,9 +862,10 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          lsp = { fallbacks = {} },
         },
       },
 
@@ -1078,7 +1079,32 @@ require('lazy').setup({
     event = 'InsertEnter',
     config = true,
   },
-
+  { -- Generate Github links
+    'linrongbin16/gitlinker.nvim',
+    cmd = 'GitLink',
+    opts = {},
+    keys = {
+      { '<leader>gy', '<cmd>GitLink<cr>', mode = { 'n', 'v' }, desc = 'Yank git link' },
+    },
+  },
+  {
+    'saxon1964/neovim-tips',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'MeanderingProgrammer/render-markdown.nvim',
+    },
+    opts = {
+      user_file = vim.fn.stdpath 'config' .. '/neovim_tips/user_tips.md',
+    },
+    init = function()
+      local map = vim.keymap.set
+      map('n', '<leader>nto', ':NeovimTips<CR>', { desc = 'Neovim tips', noremap = true, silent = true })
+    end,
+  },
+  {
+    'hat0uma/csvview.nvim',
+    cmd = { 'CsvViewEnable', 'CsvViewDisable', 'CsvViewToggle' },
+  },
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
